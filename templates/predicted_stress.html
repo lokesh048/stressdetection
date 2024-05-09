@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predicted Stress Levels</title>
+    <style>
+        /* CSS styles for formatting */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center; /* Center-align content */
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .stress-level {
+            display: inline-block;
+            margin: 20px;
+            text-align: center; /* Center-align items */
+        }
+        .stress-level p {
+            margin-bottom: 10px;
+        }
+        .stress-level img {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .majority-prediction {
+            margin-top: 30px;
+        }
+        .flashes {
+            color: green;
+        }
+        a.button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            background-color: blue;
+            border-radius: 5px;
+        }
+        a.button:hover {
+            background-color: darkblue;
+        }
+        p.italic {
+            font-style: italic;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Predicted Stress Levels</h1>
+
+    <div>
+      <!--<h2>Stress Level Distribution</h2>-->
+        <div class="stress-level">
+            <p>Low Stress</p><!--: {{ predicted_stresses.count('Low Stress') }}-->
+            <img src="{{ url_for('static', filename='images/low_stress_image.jpeg') }}" width="200" height="200">
+        </div>
+        <div class="stress-level">
+            <p>Medium Stress</p> <!--: {{ predicted_stresses.count('Medium Stress') }}-->
+            <img src="{{ url_for('static', filename='images/medium_stress_image.jpeg') }}" width="200" height="200">
+        </div>
+        <div class="stress-level">
+            <p>High Stress</p> <!--: {{ predicted_stresses.count('High Stress') }}-->
+            <img src="{{ url_for('static', filename='images/high_stress_image.jpeg') }}" width="200" height="200">
+        </div>
+    </div>
+
+    <div class="majority-prediction">
+        {% if predicted_stresses %}
+            {% set low_stress_count = predicted_stresses.count('Low Stress') %}
+            {% set medium_stress_count = predicted_stresses.count('Medium Stress') %}
+            {% set high_stress_count = predicted_stresses.count('High Stress') %}
+
+            {% set mode_prediction = [low_stress_count, medium_stress_count, high_stress_count] | max %}
+            {% if mode_prediction == low_stress_count %}
+                <h2>Predicted Stress Level: Low Stress</h2>
+                <p class="italic">You are doing great! Keep up the positive attitude and manage stress effectively.</p>
+            {% elif mode_prediction == medium_stress_count %}
+                <h2>Predicted Stress Level: Medium Stress</h2>
+                <p class="italic">Take a moment to relax and recharge. Find activities that help you unwind.</p>
+            {% elif mode_prediction == high_stress_count %}
+                <h2>Predicted Stress Level: High Stress</h2>
+                <p class="italic">It's important to address stress. Seek support and strategies to cope effectively.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,30 @@
+/* Add your custom CSS for button styling */
+.record-button,
+.stop-button {
+  background-color: #4caf50; /* Green background color */
+  border: none;
+  color: white; /* White text color */
+  padding: 15px 32px; /* Padding */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s; /* Add a smooth transition on hover */
+}
+
+.record-button:hover,
+.stop-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .record-button,
+  .stop-button {
+    padding: 10px 20px; /* Adjust padding for smaller screens */
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+}

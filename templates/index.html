@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 style="text-align: center;">Stress Detection Application</h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<div style="justify-content: center; display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+  <!-- Debugging: Display the generated video URL -->
+  {% set video_url = url_for('video') %}
+  
+
+  <!-- Display video feed -->
+  <img src="{{ video_url }}" id="video-feed" style="width: 100%; max-width: 640px; height: auto; border: 2px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); margin-bottom: 20px;">
+
+  <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-top: 30px;">
+    <!-- Styled Start Stress Test button -->
+    <button type="button" onclick="startRecording()" style="padding: 10px 20px; border-radius: 10px; background-color: green; color: white; font-weight: bold;">
+      Start Stress Test
+    </button>
+
+    <!-- Styled End Stress Test button -->
+    <form action="{{ url_for('stop_recording') }}" method="post">
+      <button type="submit" style="margin-left: 20px; padding: 10px 20px; border-radius: 10px; background-color: red; color: white; font-weight: bold;">
+        End Stress Test
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Display flash messages using Bootstrap alerts -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<script>
+function startRecording() {
+  alert("Recording started. Click 'OK' to continue.");
+  // Use AJAX to start recording without reloading the page
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '{{ url_for('start_recording') }}', true);
+  xhr.send();
+}
+</script>
+
+{% endblock %}
